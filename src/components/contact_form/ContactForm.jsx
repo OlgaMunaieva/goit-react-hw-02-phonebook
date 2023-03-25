@@ -16,10 +16,18 @@ class ContactForm extends Component {
     this.setState({ name: '', number: '' });
   };
 
+  checkForAvailability = () => {
+    !this.props.contacts.find(
+      contact => contact.name.toLowerCase() === this.state.name.toLowerCase()
+    )
+      ? this.props.addContact(this.state.name, this.state.number)
+      : alert(`${this.state.name} is already in contacts`);
+  };
+
   handleOnSubmit = event => {
     event.preventDefault();
     const { name, number } = event.target.elements;
-    this.props.addContact(this.state.name, this.state.number);
+    this.checkForAvailability();
     this.resetForm(name, number);
   };
 
