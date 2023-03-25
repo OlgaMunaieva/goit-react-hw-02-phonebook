@@ -1,11 +1,14 @@
-const ContactList = data => {
-  const { contacts, filter } = data.data;
+const ContactList = ({ data, onDelete }) => {
+  console.log(onDelete);
+  console.log(data);
+  const { contacts, filter } = data;
   return (
     <ul>
       {!filter
         ? contacts.map(({ id, name, number }) => (
             <li key={id}>
               {name}: {number}
+              <button onClick={() => onDelete({ id })}>Delete</button>
             </li>
           ))
         : contacts
@@ -13,6 +16,7 @@ const ContactList = data => {
             .map(({ id, name, number }) => (
               <li key={id}>
                 {name}: {number}
+                <button onClick={() => onDelete({ id })}>Delete</button>
               </li>
             ))}
     </ul>
