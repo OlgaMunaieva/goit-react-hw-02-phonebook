@@ -2,17 +2,15 @@ import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import initialContacts from '../data/contacts.json';
 import ContactForm from './contact_form/ContactForm';
+import Filter from './filter/Filter';
 
 export class App extends Component {
   state = {
     contacts: initialContacts,
     filter: '',
-    // name: '',
-    // number: '',
   };
 
   addContact = (name, number) => {
-    // console.log(name);
     this.setState(prevState => ({
       contacts: [
         ...prevState.contacts,
@@ -21,8 +19,8 @@ export class App extends Component {
     }));
   };
 
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = value => {
+    this.setState({ filter: value });
   };
 
   render() {
@@ -30,16 +28,8 @@ export class App extends Component {
       <div>
         <h1>Phonebook</h1>
         <ContactForm addContact={this.addContact} />
-
         <h2>Contacts</h2>
-        <p>Find contacts by name</p>
-        <input
-          value={this.state.filter}
-          onChange={this.handleChange}
-          type="search"
-          name="filter"
-          id=""
-        />
+        <Filter onChange={this.handleChange} />
         <ul>
           {!this.state.filter
             ? this.state.contacts.map(({ id, name, number }) => (
