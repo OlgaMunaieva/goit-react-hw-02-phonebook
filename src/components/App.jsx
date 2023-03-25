@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import initialContacts from '../data/contacts.json';
 import ContactForm from './contact_form/ContactForm';
 import Filter from './filter/Filter';
+import ContactList from './contact_list/ContactList';
 
 export class App extends Component {
   state = {
@@ -30,23 +31,7 @@ export class App extends Component {
         <ContactForm addContact={this.addContact} />
         <h2>Contacts</h2>
         <Filter onChange={this.handleChange} />
-        <ul>
-          {!this.state.filter
-            ? this.state.contacts.map(({ id, name, number }) => (
-                <li key={id}>
-                  {name}: {number}
-                </li>
-              ))
-            : this.state.contacts
-                .filter(contact =>
-                  contact.name.toLowerCase().includes(this.state.filter)
-                )
-                .map(({ id, name, number }) => (
-                  <li key={id}>
-                    {name}: {number}
-                  </li>
-                ))}
-        </ul>
+        <ContactList data={this.state} />
       </div>
     );
   }
