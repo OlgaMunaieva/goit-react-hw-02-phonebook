@@ -4,6 +4,7 @@ import initialContacts from '../data/contacts.json';
 import ContactForm from './contact_form/ContactForm';
 import Filter from './filter/Filter';
 import ContactList from './contact_list/ContactList';
+import { Container } from './container/Container.styled';
 
 export class App extends Component {
   state = {
@@ -25,7 +26,6 @@ export class App extends Component {
   };
 
   deleteContact = contactId => {
-    console.log(contactId.id);
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(
         contact => contact.id !== contactId.id
@@ -35,7 +35,7 @@ export class App extends Component {
 
   render() {
     return (
-      <div>
+      <Container>
         <h1>Phonebook</h1>
         <ContactForm
           addContact={this.addContact}
@@ -44,7 +44,7 @@ export class App extends Component {
         <h2>Contacts</h2>
         <Filter onChange={this.handleChange} />
         <ContactList data={this.state} onDelete={this.deleteContact} />
-      </div>
+      </Container>
     );
   }
 }
