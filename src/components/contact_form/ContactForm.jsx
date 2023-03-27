@@ -4,13 +4,6 @@ import PropTypes from 'prop-types';
 class ContactForm extends Component {
   static propTypes = {
     addContact: PropTypes.func.isRequired,
-    contacts: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        number: PropTypes.string.isRequired,
-      }).isRequired
-    ).isRequired,
   };
   state = {
     name: '',
@@ -27,18 +20,10 @@ class ContactForm extends Component {
     this.setState({ name: '', number: '' });
   };
 
-  checkForAvailability = () => {
-    !this.props.contacts.find(
-      contact => contact.name.toLowerCase() === this.state.name.toLowerCase()
-    )
-      ? this.props.addContact(this.state.name, this.state.number)
-      : alert(`${this.state.name} is already in contacts`);
-  };
-
   handleOnSubmit = event => {
     event.preventDefault();
     const { name, number } = event.target.elements;
-    this.checkForAvailability();
+    this.props.addContact(this.state.name, this.state.number);
     this.resetForm(name, number);
   };
 

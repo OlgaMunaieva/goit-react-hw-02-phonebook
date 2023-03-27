@@ -13,12 +13,16 @@ export class App extends Component {
   };
 
   addContact = (name, number) => {
-    this.setState(prevState => ({
-      contacts: [
-        ...prevState.contacts,
-        { id: nanoid(), name: name, number: number },
-      ],
-    }));
+    !this.state.contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    )
+      ? this.setState(prevState => ({
+          contacts: [
+            ...prevState.contacts,
+            { id: nanoid(), name: name, number: number },
+          ],
+        }))
+      : alert(`${name} is already in contacts`);
   };
 
   handleChange = value => {
@@ -34,20 +38,16 @@ export class App extends Component {
   };
 
   getFilterContacts = () =>
-    !this.state.filter
-      ? this.state.contacts
-      : this.state.contacts.filter(contact =>
-          contact.name.toLowerCase().includes(this.state.filter)
-        );
+    this.state.contacts.filter(contact =>
+      contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
+    );
+
   render() {
     const contacts = this.getFilterContacts();
     return (
       <Container>
         <h1>Phonebook</h1>
-        <ContactForm
-          addContact={this.addContact}
-          contacts={this.state.contacts}
-        />
+        <ContactForm addContact={this.addContact} />
         <h2>Contacts</h2>
         <Filter onChange={this.handleChange} />
         <ContactList contacts={contacts} onDelete={this.deleteContact} />
