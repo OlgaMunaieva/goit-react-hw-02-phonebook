@@ -1,31 +1,22 @@
 import { ContainerItem, ContainerList } from './ContactList.styled';
 import PropTypes from 'prop-types';
 
-const ContactList = ({ data, onDelete }) => {
-  const { contacts, filter } = data;
+const ContactList = ({ contacts, onDelete }) => {
   return (
     <ContainerList>
-      {!filter
-        ? contacts.map(({ id, name, number }) => (
-            <ContainerItem key={id}>
-              {name}: {number}
-              <button onClick={() => onDelete({ id })}>Delete</button>
-            </ContainerItem>
-          ))
-        : contacts
-            .filter(contact => contact.name.toLowerCase().includes(filter))
-            .map(({ id, name, number }) => (
-              <ContainerItem key={id}>
-                {name}: {number}
-                <button onClick={() => onDelete({ id })}>Delete</button>
-              </ContainerItem>
-            ))}
+      {contacts.map(({ id, name, number }) => (
+        <ContainerItem key={id}>
+          {name}: {number}
+          <button onClick={() => onDelete({ id })}>Delete</button>
+        </ContainerItem>
+      ))}
     </ContainerList>
   );
 };
 
 ContactList.propTypes = {
-  data: PropTypes.object.isRequired,
+  contacts: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string.isRequired))
+    .isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 
